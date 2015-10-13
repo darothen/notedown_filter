@@ -14,7 +14,9 @@ fi
 NBS=`git diff-index --cached $against --name-only | grep '.md$' | uniq`
 
 for NB in $NBS ; do
-    echo "Removing outputs from $NB"
-    stripoutput.py $NB
-    git add "$NB"
+    if [ -e "$NB" ]; then
+        echo "Removing outputs from $NB"
+        stripoutput.py $NB
+        git add "$NB"
+    fi
 done

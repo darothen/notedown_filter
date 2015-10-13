@@ -74,8 +74,13 @@ if __name__ == "__main__":
     elif args['<NOTEBOOK_FILE>'] is not None:
         # Read in the notebook from a named file
         input_filename = args['<NOTEBOOK_FILE>']
-        with open(input_filename, 'r', encoding='utf-8') as f:
-            notebook = reader.read(f)
+        try:
+            with open(input_filename, 'r', encoding='utf-8') as f:
+                notebook = reader.read(f)
+        except IOError:
+            print("Couldn't open %s; omitting" % input_filename,
+                  file=sys.stderr)
+            sys.exit(0)
 
         # Strip output cells
         strip(notebook)
