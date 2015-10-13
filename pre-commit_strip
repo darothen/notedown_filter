@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# strip output of notedown/Jupyter Notebooks
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+    against=HEAD
+else
+    # Initial commit: diff against an empty tree object
+    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+# Find the notebooks to be committed
+NBS=`git diff-index --cached $against --name-only | grep '.md$' | uniq`
+echo $NBS
+
+for NB in $NBS ; do
+    echo "Removing outputs from $NB"
+    stripout.py "$NB"
+    git add "$NB"
+done
