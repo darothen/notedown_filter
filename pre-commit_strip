@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # strip output of notedown/Jupyter Notebooks
-
+#
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
     against=HEAD
@@ -12,10 +12,9 @@ fi
 
 # Find the notebooks to be committed
 NBS=`git diff-index --cached $against --name-only | grep '.md$' | uniq`
-echo $NBS
 
 for NB in $NBS ; do
     echo "Removing outputs from $NB"
-    stripout.py "$NB"
+    stripoutput.py $NB
     git add "$NB"
 done
