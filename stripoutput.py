@@ -69,8 +69,6 @@ if __name__ == "__main__":
     writer = MarkdownWriter(markdown_template,
                             strip_outputs=True)
 
-    print(args, file=sys.stderr)
-
     if args['<NOTEBOOK_FILE>'] == 'install':
         install()
     elif args['<NOTEBOOK_FILE>'] is not None:
@@ -90,6 +88,5 @@ if __name__ == "__main__":
         # Read in a notebook from stdin
         notebook = reader.read(sys.stdin)
         strip(notebook)
-        print(notebook, file=sys.stderr)
         output = writer.writes(notebook)
         sys.stdout.write(output)
